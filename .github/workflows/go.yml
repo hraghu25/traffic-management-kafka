@@ -12,11 +12,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
           go-version: '1.21.4'
 
@@ -26,18 +25,18 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Read Configuration from manifest.yaml
-        run: |
-          PRODUCTION=$(jq -r .production manifest.yaml)
-          echo "PRODUCTION=$PRODUCTION" >> $GITHUB_ENV
+      - name: Read Version from manifest.yaml
+        run: echo "::set-env name=VERSION::$(jq -r .version manifest.yaml)"
 
       - name: Create Tag
-        if: ${{ env.PRODUCTION == 'true' }}
+        env:
+          VERSION: ${{ env.VERSION }}
         run: |
-          git tag -a "v${{ github.run_number }}" -m "Production Version v${{ github.run_number }}"
-          git push origin "v${{ github.run_number }}"
-        
+          git tag -a "v${VERSION}" -m "Version ${VERSION}"
+          git push origin "v${VERSION}"
+
       - name: Create Deployable Zip
-        if: ${{ env.PRODUCTION == 'true' }}
+        env:
+          VERSION: ${{ env.VERSION }}
         run: |
-          zip -r "deployable_v${{ github.run_number }}.zip" ./path/to/build/output
+          zip -r "deployable_v${VERSION}.zip" ./path/to/build/output
