@@ -28,9 +28,9 @@ jobs:
 
       - name: Create Tag
         run: |
-          git tag -a "v${{ github.run_number }}" -m "Version ${{ github.run_number }}"
-          git push origin "v${{ github.run_number }}"
+          git tag -a "v1.0" -m "Version 1.0"
+          git push origin "v1.0"
         
       - name: Create Deployable Zip
         run: |
-          zip -r "deployable_v${{ github.run_number }}.zip" ./path/to/build/output
+          zip -r "deployable_v1.0.zip" ./path/to/build/output
