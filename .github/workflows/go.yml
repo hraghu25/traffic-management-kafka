@@ -26,12 +26,6 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Set VERSION environment variable
-        run: echo "VERSION=${{ secrets.VERSION }}" >> $GITHUB_ENV
-
-      - name: Show VERSION variable (for debugging)
-        run: echo "VERSION=$VERSION"
-
       - name: Create Tag
         run: |
           git tag -a "v${{ github.run_number }}" -m "Version ${{ github.run_number }}"
