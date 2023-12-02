@@ -26,11 +26,15 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Create Tag and Push
+      - name: Configure Git Identity
         run: |
-          TAG_NAME="v1.0"
-          git tag -a "$TAG_NAME" -m "Version $TAG_NAME"
-          git push origin "$TAG_NAME"
+          git config --global user.email "raghavendrahiremathg@gmail.com"
+          git config --global user.name "hraghu25"
+
+      - name: Create Tag
+        run: |
+          git tag -a "v1.0" -m "Version 1.0"
+          git push origin "v1.0"
         
       - name: Create Deployable Zip
         run: |
