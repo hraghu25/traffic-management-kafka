@@ -26,10 +26,11 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Create Tag
+      - name: Create Tag and Push
         run: |
-          git tag -a "v1.0" -m "Version 1.0"
-          git push origin "v1.0"
+          TAG_NAME="v1.0"
+          git tag -a "$TAG_NAME" -m "Version $TAG_NAME"
+          git push origin "$TAG_NAME"
         
       - name: Create Deployable Zip
         run: |
