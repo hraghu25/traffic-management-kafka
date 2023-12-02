@@ -26,10 +26,8 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Read Version from manifest.yaml
-        run: |
-          VERSION=$(jq -r .version manifest.yaml)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Set VERSION environment variable
+        run: echo "VERSION=${{ secrets.VERSION }}" >> $GITHUB_ENV
 
       - name: Create Tag
         run: |
